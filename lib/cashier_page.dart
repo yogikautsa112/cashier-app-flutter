@@ -38,10 +38,10 @@ class _CashierPageState extends State<CashierPage> {
   int _totalHarga = 0;
 
   Future<void> _tambahItemBeli(int index) async {
-    if (products[index]["quantity"] < products[index]["stock"]) {
+    if (products[index]["stock"] > 0) {  // Changed condition to check stock directly
       setState(() {
         products[index]["quantity"]++;
-        products[index]["stock"]--;  // Decrease stock
+        products[index]["stock"]--;
         _totalItem++;
         _totalHarga += products[index]["price"] as int;
       });
@@ -177,22 +177,31 @@ class _CashierPageState extends State<CashierPage> {
                             padding: const EdgeInsets.all(8),
                             child: Row(
                               children: [
-                                IconButton(
-                                  onPressed: () => _kurangItemBeli(index),
-                                  icon: const Icon(Icons.remove_circle_outline),
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  '${product['quantity'] ?? 0}',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                Visibility(
+                                  visible: product['quantity'] > 0,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () => _kurangItemBeli(index),
+                                        icon: const Icon(Icons.remove_circle_outline),
+                                        color: Colors.red,
+                                      ),
+                                      Text(
+                                        '${product['quantity']}',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () => _tambahItemBeli(index),
+                                  onPressed: product['stock'] > 0 
+                                      ? () => _tambahItemBeli(index)
+                                      : null,
                                   icon: const Icon(Icons.add_circle_outline),
-                                  color: Colors.green,
+                                  color: product['stock'] > 0 ? Colors.green : Colors.grey,
                                 ),
                               ],
                             ),
