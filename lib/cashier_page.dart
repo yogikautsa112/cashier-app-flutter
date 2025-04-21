@@ -41,6 +41,7 @@ class _CashierPageState extends State<CashierPage> {
     if (products[index]["quantity"] < products[index]["stock"]) {
       setState(() {
         products[index]["quantity"]++;
+        products[index]["stock"]--;  // Decrease stock
         _totalItem++;
         _totalHarga += products[index]["price"] as int;
       });
@@ -51,6 +52,7 @@ class _CashierPageState extends State<CashierPage> {
     if (products[index]["quantity"] > 0) {
       setState(() {
         products[index]["quantity"]--;
+        products[index]["stock"]++;  // Increase stock back
         _totalItem--;
         _totalHarga -= products[index]["price"] as int;
       });
@@ -133,6 +135,7 @@ class _CashierPageState extends State<CashierPage> {
                             ),
                           ),
                           const SizedBox(width: 12),
+                          // In the product card, add stock display after the price:
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -155,6 +158,14 @@ class _CashierPageState extends State<CashierPage> {
                                     style: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.blue,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Stok: ${product['stock']}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
