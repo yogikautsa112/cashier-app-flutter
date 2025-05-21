@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'receipt_page.dart';
 
 class CashierPage extends StatefulWidget {
   const CashierPage({super.key});
@@ -246,7 +247,16 @@ class _CashierPageState extends State<CashierPage> {
             ],
           ),
           ElevatedButton(
-            onPressed: _totalItem > 0 ? () {} : null,
+            onPressed: _totalItem > 0 
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ReceiptPage(),
+                      ),
+                    );
+                  } 
+                : null,
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               backgroundColor: Colors.blue,
